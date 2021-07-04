@@ -5,7 +5,7 @@ yarn install
 yarn start
 ```
 
-Open [http://localhost:3001](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
 Included apps:
 
