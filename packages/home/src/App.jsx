@@ -11,7 +11,11 @@ function App() {
         </div>
         <div className="panel-body">
           <ul className="nav nav-pills nav-stacked">
-            <li></li>
+            <li>
+              <a href="http://localhost:3001">
+                <span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> React Hooks
+              </a>
+            </li>
           </ul>
         </div>
       </div>

@@ -1,22 +1,19 @@
-const deps = require('./package.json').dependencies;
+const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 
 module.exports = {
-  entry: './src/index',
-  cache: false,
-
   // mode: 'production',
   mode: 'development',
-  devtool: 'source-map',
 
-  optimization: {
-    minimize: false
+  entry: {
+    main: path.join(__dirname, 'src', 'App.jsx')
   },
 
   output: {
-    publicPath: 'auto'
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].js'
   },
 
   resolve: {
@@ -41,27 +38,16 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
         use: [
           {
-            loader: 'file-loader'
+            loader: 'babel-loader',
+            options: {
+              presets: [['@babel/preset-react', { runtime: 'automatic' }]]
+            }
           }
         ]
-      },
-      {
-        test: /\.m?js$/,
-        type: 'javascript/auto',
-        resolve: {
-          fullySpecified: false
-        }
-      },
-      {
-        test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
-        exclude: /node_modules/,
-        options: {
-          presets: [require.resolve('@babel/preset-react')]
-        }
       }
     ]
   },
@@ -95,24 +81,17 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'home',
+      name: 'react_hooks',
       filename: 'remoteEntry.js',
-      remotes: {
-        react_hooks: 'react_hooks@http://localhost:3001/remoteEntry.js'
+      exposes: {
+        './App': './src/App.jsx'
       },
-      exposes: {},
-      shared: {
-        ...deps,
-        'react-dom': {
-          singleton: true
-        },
-        react: {
-          singleton: true
-        }
-      }
+      shared: []
     }),
+
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './index.html',
+      chunks: ['main']
     })
   ]
 };

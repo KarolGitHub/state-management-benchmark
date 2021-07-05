@@ -13,3 +13,22 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.jumbotron {
+  padding: 10px 0px;
+}
+.preloadicon {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+}
+.col-sm-6.smallpad {
+  padding: 5px;
+}
+.jumbotron .row h1 {
+  font-size: 40px;
+}
+.col-md-1 a,
+.col-md-4 a {
+  cursor: pointer;
+}
