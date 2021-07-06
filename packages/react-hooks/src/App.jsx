@@ -2,9 +2,7 @@ import { memo, useReducer } from 'react';
 import { render } from 'react-dom';
 import './../../../css/styles.css';
 
-const random = (max) => Math.round(Math.random() * 1000) % max;
-
-const A = [
+const adjectives = [
   'pretty',
   'large',
   'big',
@@ -31,8 +29,8 @@ const A = [
   'expensive',
   'fancy'
 ];
-const C = ['red', 'yellow', 'blue', 'green', 'pink', 'brown', 'purple', 'brown', 'white', 'black', 'orange'];
-const N = [
+const colours = ['red', 'yellow', 'blue', 'green', 'pink', 'brown', 'purple', 'brown', 'white', 'black', 'orange'];
+const nouns = [
   'table',
   'chair',
   'house',
@@ -48,6 +46,8 @@ const N = [
   'keyboard'
 ];
 
+const random = (max) => Math.round(Math.random() * 1000) % max;
+
 let nextId = 1;
 
 const generateData = (count) => {
@@ -56,7 +56,9 @@ const generateData = (count) => {
   for (let i = 0; i < count; i++) {
     data[i] = {
       id: nextId++,
-      label: `${A[random(A.length)]} ${C[random(C.length)]} ${N[random(N.length)]}`
+      label: `${adjectives[random(adjectives.length)]} ${colours[random(colours.length)]} ${
+        nouns[random(nouns.length)]
+      }`
     };
   }
 
@@ -92,7 +94,7 @@ const listReducer = (state, action) => {
       return data.length > 998
         ? { data: [data[0], data[998], ...data.slice(2, 998), data[1], data[999]], selected }
         : state;
-    case 'REMOVE': {
+    case 'DELETE': {
       const idx = data.findIndex((d) => d.id === action.id);
 
       return { data: [...data.slice(0, idx), ...data.slice(idx + 1)], selected };
@@ -112,7 +114,7 @@ const Row = memo(
         <a onClick={() => dispatch({ type: 'SELECT', id: item.id })}>{item.label}</a>
       </td>
       <td className="col-md-1">
-        <a onClick={() => dispatch({ type: 'REMOVE', id: item.id })}>
+        <a onClick={() => dispatch({ type: 'DELETE', id: item.id })}>
           <span className="glyphicon glyphicon-remove text-danger" aria-hidden="true" />
         </a>
       </td>

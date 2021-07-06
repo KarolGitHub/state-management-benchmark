@@ -73,8 +73,7 @@ module.exports = {
             ascii_only: true
           }
         },
-        parallel: true,
-        cache: true
+        parallel: true
       })
     ]
   },
