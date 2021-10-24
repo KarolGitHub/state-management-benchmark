@@ -1,5 +1,7 @@
 import { memo, useReducer } from 'react';
 import { render } from 'react-dom';
+
+import { performanceAPI, SaveToJSON } from '../../../utils';
 import './../../../css/styles.css';
 
 const adjectives = [
@@ -141,12 +143,12 @@ const TestPanel = memo(
         </div>
         <div className="col-md-6">
           <div className="row">
-            <Button id="run" title="Create 1,000 rows" clicked={() => dispatch({ type: 'RUN' })} />
-            <Button id="runlots" title="Create 10,000 rows" clicked={() => dispatch({ type: 'RUN_LOTS' })} />
+            <Button id="create" title="Create 1,000 rows" clicked={() => dispatch({ type: 'RUN' })} />
+            <Button id="createLots" title="Create 10,000 rows" clicked={() => dispatch({ type: 'RUN_LOTS' })} />
             <Button id="add" title="Add 1,000 rows" clicked={() => dispatch({ type: 'ADD' })} />
             <Button id="update" title="Update every 10th row" clicked={() => dispatch({ type: 'UPDATE' })} />
             <Button id="clear" title="Clear" clicked={() => dispatch({ type: 'CLEAR' })} />
-            <Button id="swaprows" title="Swap Rows" clicked={() => dispatch({ type: 'SWAP_ROWS' })} />
+            <Button id="swapRows" title="Swap Rows" clicked={() => dispatch({ type: 'SWAP_ROWS' })} />
           </div>
         </div>
       </div>
@@ -158,8 +160,13 @@ const TestPanel = memo(
 const App = () => {
   const [{ data, selected }, dispatch] = useReducer(listReducer, initialState);
 
+  window.addEventListener('load', () => {
+    const performance = performanceAPI();
+    new SaveToJSON(performance, 'react.json').download();
+  });
+
   return (
-    <div className="container">
+    <div className="container" id="#contaiter">
       <TestPanel dispatch={dispatch} />
       <table className="table table-hover table-striped test-data">
         <tbody>
