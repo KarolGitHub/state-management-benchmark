@@ -31,3 +31,6 @@ code {
 .col-md-4 a {
   cursor: pointer;
 }
+tr:hover {
+  cursor: pointer;
+}

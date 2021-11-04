@@ -40,11 +40,16 @@
   </div>
   <table class="table table-hover table-striped test-data">
     <tbody>
-      <tr ng-repeat="item in $ctrl.data track by item.id" ng-class="{ danger: item.id === $ctrl.selected }">
+      <tr
+        ng-repeat="item in $ctrl.data track by item.id"
+        ng-class="{ danger: item.id === $ctrl.selected }"
+        ng-click="$ctrl.select(item)"
+      >
         <td class="col-md-1">{{item.id}}</td>
-        <td class="col-md-4">
-          <a ng-click="$ctrl.select(item)">{{item.label}}</a>
-        </td>
+        <td class="col-md-4">{{item.firstName}}</td>
+        <td class="col-md-4">{{item.lastName}}</td>
+        <td class="col-md-4">{{item.birthday}}</td>
+        <td class="col-md-4">{{item.email}}</td>
         <td class="col-md-1">
           <a ng-click="$ctrl.delete(item)"
             ><span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span

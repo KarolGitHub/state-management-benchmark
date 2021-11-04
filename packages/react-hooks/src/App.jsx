@@ -1,71 +1,8 @@
 import { memo, useReducer } from 'react';
 import { render } from 'react-dom';
 
-import { performanceAPI, SaveToJSON } from '../../../utils';
+import { performanceAPI, SaveToJSON, generateData } from '../../../utils';
 import './../../../css/styles.css';
-
-const adjectives = [
-  'pretty',
-  'large',
-  'big',
-  'small',
-  'tall',
-  'short',
-  'long',
-  'handsome',
-  'plain',
-  'quaint',
-  'clean',
-  'elegant',
-  'easy',
-  'angry',
-  'crazy',
-  'helpful',
-  'mushy',
-  'odd',
-  'unsightly',
-  'adorable',
-  'important',
-  'inexpensive',
-  'cheap',
-  'expensive',
-  'fancy'
-];
-const colours = ['red', 'yellow', 'blue', 'green', 'pink', 'brown', 'purple', 'brown', 'white', 'black', 'orange'];
-const nouns = [
-  'table',
-  'chair',
-  'house',
-  'bbq',
-  'desk',
-  'car',
-  'pony',
-  'cookie',
-  'sandwich',
-  'burger',
-  'pizza',
-  'mouse',
-  'keyboard'
-];
-
-const random = (max) => Math.round(Math.random() * 1000) % max;
-
-let nextId = 1;
-
-const generateData = (count) => {
-  const data = new Array(count);
-
-  for (let i = 0; i < count; i++) {
-    data[i] = {
-      id: nextId++,
-      label: `${adjectives[random(adjectives.length)]} ${colours[random(colours.length)]} ${
-        nouns[random(nouns.length)]
-      }`
-    };
-  }
-
-  return data;
-};
 
 const initialState = { data: [], selected: 0 };
 
@@ -84,8 +21,13 @@ const listReducer = (state, action) => {
 
       for (let i = 0; i < newData.length; i += 10) {
         const r = newData[i];
-
-        newData[i] = { id: r.id, label: r.label + ' !!!' };
+        newData[i] = {
+          id: r.id,
+          firstName: r.firstName + '_updated',
+          lastName: r.lastName + '_updated',
+          email: 'updated_' + r.email,
+          birthday: r.birthday + '_updated'
+        };
       }
 
       return { data: newData, selected };
@@ -110,11 +52,12 @@ const listReducer = (state, action) => {
 
 const Row = memo(
   ({ selected, item, dispatch }) => (
-    <tr className={selected ? 'success' : ''}>
+    <tr className={selected ? 'success' : ''} onClick={() => dispatch({ type: 'SELECT', id: item.id })}>
       <td className="col-md-1">{item.id}</td>
-      <td className="col-md-4">
-        <a onClick={() => dispatch({ type: 'SELECT', id: item.id })}>{item.label}</a>
-      </td>
+      <td className="col-md-4">{item.firstName}</td>
+      <td className="col-md-4">{item.lastName}</td>
+      <td className="col-md-4">{item.birthday}</td>
+      <td className="col-md-4">{item.email}</td>
       <td className="col-md-1">
         <a onClick={() => dispatch({ type: 'DELETE', id: item.id })}>
           <span className="glyphicon glyphicon-remove text-danger" aria-hidden="true" />
