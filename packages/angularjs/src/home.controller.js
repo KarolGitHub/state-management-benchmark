@@ -20,7 +20,10 @@ export default class HomeController {
 
   update() {
     for (let i = 0; i < this.data.length; i += 10) {
-      this.data[i].label += ' !!!';
+      this.data[i].firstName += '_updated';
+      this.data[i].lastName += '_updated';
+      this.data[i].email += '_updated';
+      this.data[i].birthday += '_updated';
     }
   }
 

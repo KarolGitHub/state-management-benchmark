@@ -21,6 +21,11 @@ function App() {
                 <span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> AngularJS v1.8.2
               </a>
             </li>
+            <li>
+              <a href="http://localhost:3003">
+                <span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> Vue v3.2.1
+              </a>
+            </li>
           </ul>
         </div>
       </div>
