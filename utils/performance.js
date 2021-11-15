@@ -1,3 +1,4 @@
+import { SaveToJSON } from './';
 export function performanceAPI() {
   'use strict';
 
@@ -90,11 +91,13 @@ export function performanceAPI() {
   };
 }
 
-export function calcFunTime(fun) {
-  performance.mark('begin');
+export function saveUserTimings() {
+  const userTiming = performance.getEntriesByType('measure');
+  new SaveToJSON(userTiming, 'userTimings.json').download();
+}
+export function markFunTime(fun) {
+  console.log(fun);
+  performance.mark(`${fun.name}_start`);
   fun();
-  performance.mark('end');
-
-  var marks = performance.getEntriesByType('mark');
-  console.info(`Time took to execute ${fun.name} ${marks[1].startTime - marks[0].startTime}`);
+  performance.mark(`${fun.name}_end`);
 }

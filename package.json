@@ -5,13 +5,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces run build",
     "serve": "wsrun --parallel serve",
     "start": "concurrently \"wsrun --parallel start\" \"wsrun --parallel serve\""
   },
   "devDependencies": {
-    "concurrently": "^5.1.0",
-    "serve": "^12.0.0",
-    "wsrun": "^5.2.0"
+    "concurrently": "^6.4.0",
+    "serve": "^13.0.2",
+    "wsrun": "^5.2.4"
   }
 }

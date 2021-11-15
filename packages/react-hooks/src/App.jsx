@@ -1,10 +1,12 @@
-import { memo, useReducer } from 'react';
+import { memo, useEffect, useReducer } from 'react';
 import { render } from 'react-dom';
 
-import { performanceAPI, SaveToJSON, generateData } from '../../../utils';
+import { performanceAPI, SaveToJSON, generateData, saveUserTimings } from '../../../utils';
 import './../../../css/styles.css';
 
 const initialState = { data: [], selected: 0 };
+let operationType = 'load';
+performance.mark(operationType);
 
 const listReducer = (state, action) => {
   const { data, selected } = state;
@@ -52,15 +54,26 @@ const listReducer = (state, action) => {
 
 const Row = memo(
   ({ selected, item, dispatch }) => (
-    <tr className={selected ? 'success' : ''} onClick={() => dispatch({ type: 'SELECT', id: item.id })}>
+    <tr
+      className={selected ? 'success' : ''}
+      onClick={() => {
+        operationType = 'select';
+        performance.mark(operationType);
+        return dispatch({ type: 'SELECT', id: item.id });
+      }}>
       <td className="col-md-1">{item.id}</td>
       <td className="col-md-4">{item.firstName}</td>
       <td className="col-md-4">{item.lastName}</td>
       <td className="col-md-4">{item.birthday}</td>
       <td className="col-md-4">{item.email}</td>
       <td className="col-md-1">
-        <a onClick={() => dispatch({ type: 'DELETE', id: item.id })}>
-          <span className="glyphicon glyphicon-remove text-danger" aria-hidden="true" />
+        <a
+          onClick={() => {
+            operationType = 'delete';
+            performance.mark(operationType);
+            return dispatch({ type: 'DELETE', id: item.id });
+          }}>
+          <span className="fas fa-trash text-danger" aria-hidden="true" />
         </a>
       </td>
       <td className="col-md-6" />
@@ -71,7 +84,7 @@ const Row = memo(
 
 const Button = ({ id, clicked, title }) => (
   <div className="col-sm-6 smallpad">
-    <button type="button" className="btn btn-primary btn-block" id={id} onClick={clicked}>
+    <button type="button" className="btn btn-primary btn-block w-100" id={id} onClick={clicked}>
       {title}
     </button>
   </div>
@@ -83,34 +96,95 @@ const TestPanel = memo(
       <div className="row">
         <div className="col-md-6">
           <h1>React Hooks</h1>
+          <div className="col-md-6 p-0">
+            <button type="button" className="btn btn-primary btn-block" onClick={() => saveUserTimings()}>
+              Get Timings
+            </button>
+          </div>
         </div>
         <div className="col-md-6">
           <div className="row">
-            <Button id="create" title="Create 1,000 rows" clicked={() => dispatch({ type: 'RUN' })} />
-            <Button id="createLots" title="Create 10,000 rows" clicked={() => dispatch({ type: 'RUN_LOTS' })} />
-            <Button id="add" title="Add 1,000 rows" clicked={() => dispatch({ type: 'ADD' })} />
-            <Button id="update" title="Update every 10th row" clicked={() => dispatch({ type: 'UPDATE' })} />
-            <Button id="clear" title="Clear" clicked={() => dispatch({ type: 'CLEAR' })} />
-            <Button id="swapRows" title="Swap Rows" clicked={() => dispatch({ type: 'SWAP_ROWS' })} />
+            <Button
+              id="create"
+              title="Create 1,000 rows"
+              clicked={() => {
+                operationType = 'create';
+                performance.mark(operationType);
+                dispatch({ type: 'RUN' });
+              }}
+            />
+            <Button
+              id="createLots"
+              title="Create 10,000 rows"
+              clicked={() => {
+                operationType = 'create lots';
+                performance.mark(operationType);
+                dispatch({ type: 'RUN_LOTS' });
+              }}
+            />
+            <Button
+              id="add"
+              title="Add 1,000 rows"
+              clicked={() => {
+                operationType = 'add';
+                performance.mark(operationType);
+                dispatch({ type: 'ADD' });
+              }}
+            />
+            <Button
+              id="update"
+              title="Update every 10th row"
+              clicked={() => {
+                operationType = 'update';
+                performance.mark(operationType);
+                dispatch({ type: 'UPDATE' });
+              }}
+            />
+            <Button
+              id="clear"
+              title="Clear"
+              clicked={() => {
+                operationType = 'clear';
+                performance.mark(operationType);
+                dispatch({ type: 'CLEAR' });
+              }}
+            />
+            <Button
+              id="swapRows"
+              title="Swap Rows"
+              clicked={() => {
+                operationType = 'swap';
+                performance.mark(operationType);
+                dispatch({ type: 'SWAP_ROWS' });
+              }}
+            />
           </div>
         </div>
       </div>
     </div>
   ),
-  () => true
+  () => <true></true>
 );
 
 const App = () => {
   const [{ data, selected }, dispatch] = useReducer(listReducer, initialState);
 
-  window.addEventListener('load', () => {
-    const performance = performanceAPI();
-    new SaveToJSON(performance, 'react.json').download();
+  useEffect(() => {
+    window.addEventListener('load', () => {
+      const perf = performanceAPI();
+      new SaveToJSON(perf, 'react.json').download();
+    });
+    return window.removeEventListener('load', () => {});
+  }, []);
+
+  useEffect(() => {
+    performance.measure(operationType, operationType);
   });
 
   return (
     <div className="container" id="#contaiter">
       <TestPanel dispatch={dispatch} />
+      <div className="d-flex align-items-center"></div>
       <table className="table table-hover table-striped test-data">
         <tbody>
           {data.map((item) => (
@@ -118,7 +192,7 @@ const App = () => {
           ))}
         </tbody>
       </table>
-      <span className="preloadicon glyphicon glyphicon-remove hover" aria-hidden="true" />
+      <span className="preloadicon fas fa-trash hover" aria-hidden="true" />
     </div>
   );
 };

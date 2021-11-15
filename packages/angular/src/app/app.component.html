@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="jumbotron d-flex">
+    <div class="col-md-6">
+      <div class="row">
+        <h1>Angular {{ version }}</h1>
+        <div className="col-md-6 p-2">
+          <button type="button" class="btn btn-primary btn-block m-2" id="run" (click)="saveUserTimings()">
+            Get Timings
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="run" (click)="run()" ref="text">
+            Create 1,000 rows
+          </button>
+        </div>
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="runlots" (click)="runLots()">
+            Create 10,000 rows
+          </button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="add" (click)="add()" ref="text">
+            Append 1,000 rows
+          </button>
+        </div>
+
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="update" (click)="update()">
+            Update every 10th row
+          </button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="clear" (click)="clear()">Clear</button>
+        </div>
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="swaprows" (click)="swapRows()">
+            Swap Rows
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover table-striped test-data">
+    <tbody>
+      <tr
+        [class.danger]="item.id === selected"
+        *ngFor="let item of data; trackBy: itemById"
+        (click)="select(item, $event)"
+      >
+        <td class="col-md-1">{{ item.id }}</td>
+        <td class="col-md-4">{{ item.firstName }}</td>
+        <td class="col-md-4">{{ item.lastName }}</td>
+        <td class="col-md-4">{{ item.birthday }}</td>
+        <td class="col-md-4">{{ item.email }}</td>
+        <td class="col-md-1">
+          <a href="#" (click)="delete(item, $event)"
+            ><span class="fas fa-trash text-danger" aria-hidden="true"></span
+          ></a>
+        </td>
+        <td class="col-md-6"></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="preloadicon fas fa-trash" aria-hidden="true"></span>
+</div>

@@ -1,5 +1,7 @@
-import { createApp } from 'vue';
+import * as Vue from 'vue';
 import App from './App.vue';
 import './../../../css/styles.css';
 
-createApp(App).mount('#main');
+const vm = Vue.createApp(App);
+vm.config.performance = true;
+vm.mount('#main');

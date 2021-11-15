@@ -6,7 +6,7 @@ const random = (max) => Math.round(Math.random() * 1000) % max;
 
 let nextId = 1;
 
-const generatePerson = function(index) {
+const generatePerson = function() {
     const firstName = firstNames[random(firstNames.length)];
     const lastName = lastNames[random(lastNames.length)];
     const birthday = new Date(+(new Date()) - Math.floor(Math.random()*10000000000)).toLocaleDateString();
@@ -25,7 +25,7 @@ export function generateData(count) {
 	const data = new Array(count);
 
 	for (let i = 0; i < count; i++) {
-		data[i] = generatePerson(i);
+		data[i] = generatePerson();
 	}
   
 	return data;

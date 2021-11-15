@@ -7,13 +7,10 @@ module.exports = {
   // mode: 'production',
   mode: 'development',
 
-  entry: {
-    main: path.join(__dirname, 'src', 'App.jsx')
-  },
+  entry: './src/App',
 
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    publicPath: 'auto'
   },
 
   resolve: {
@@ -89,8 +86,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      chunks: ['main']
+      template: './public/index.html'
     })
   ]
 };
