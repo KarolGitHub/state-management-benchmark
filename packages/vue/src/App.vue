@@ -113,8 +113,8 @@ export default {
     <div class="row">
       <div class="col-md-6">
         <h1>Vue.js 3</h1>
-        <div className="col-md-6">
-          <button type="button" className="btn btn-primary btn-block" id="getUserTimings" @click="saveUserTimings()">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-primary btn-block" id="getUserTimings" @click="saveUserTimings()">
             Get Timings
           </button>
         </div>

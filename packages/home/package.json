@@ -1,10 +1,11 @@
 {
-  "name": "@state-management-tester/home",
+  "name": "@state-management-dashboard/home",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "webpack --watch",
     "build": "webpack --mode production",
+    "dev": "webpack-dev-server --content-base dist",
     "serve": "serve dist -p 3000",
     "clean": "rm -rf dist"
   },
@@ -23,6 +24,7 @@
     "style-loader": "^3.0.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.40.0",
-    "webpack-cli": "^4.0.0"
+    "webpack-cli": "^4.0.0",
+    "webpack-dev-server": "^4.5.0"
   }
 }

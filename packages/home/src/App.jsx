@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../../css/styles.css';
 
 function App() {
@@ -13,13 +12,18 @@ function App() {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="http://localhost:4200">
-              <span className="fas fa-arrow-right" aria-hidden="true"></span> Angular v12.0.1
+            <a className="nav-link" href="http://localhost:3002">
+              <span className="fas fa-arrow-right" aria-hidden="true"></span> Svelte v3.42.1
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="http://localhost:3003">
               <span className="fas fa-arrow-right" aria-hidden="true"></span> Vue v3.2.1
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="http://localhost:4200">
+              <span className="fas fa-arrow-right" aria-hidden="true"></span> Angular v12.0.1
             </a>
           </li>
         </ul>

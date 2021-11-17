@@ -1,4 +1,4 @@
-import { Component, VERSION, OnInit, AfterViewChecked, DoCheck, OnChanges } from '@angular/core';
+import { Component, VERSION, OnInit, AfterViewChecked, DoCheck, OnChanges, OnDestroy } from '@angular/core';
 import { performanceAPI, SaveToJSON, generateData, saveUserTimings as saveTimings } from '../../../../utils';
 
 class Timer {
@@ -25,7 +25,7 @@ interface Data {
   templateUrl: './app.component.html',
   styleUrls: ['./../../../../css/styles.css']
 })
-export class AppComponent implements AfterViewChecked, OnInit, DoCheck {
+export class AppComponent implements AfterViewChecked, OnInit, DoCheck, OnDestroy {
   data: Array<Data> = [];
   selected: number = undefined;
   id: number = 1;
@@ -55,6 +55,10 @@ export class AppComponent implements AfterViewChecked, OnInit, DoCheck {
   ngAfterViewChecked(): void {
     // performance.measure(this.operationType, this.operationType);
     this.t.stop();
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('load', () => {});
   }
 
   saveUserTimings() {

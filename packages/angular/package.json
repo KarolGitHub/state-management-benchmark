@@ -1,10 +1,11 @@
 {
-  "name": "angular",
+  "name": "@state-management-dashboard/angular",
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "dev": "webpack-dev-server --content-base dist",
     "test": "ng test",
     "lint": "ng lint",
     "build-prod": "ng build --prod=true --buildOptimizer=true --sourceMap=false",
