@@ -20,11 +20,11 @@
   });
 
   afterUpdate(() => {
-    performance.measure(operationType, operationType);
+    setTimeout(() => performance.measure(operationType, operationType));
   });
 
   const saveUserTimings = () => {
-      saveTimings();
+      saveTimings('svelte');
     },
     add = () => {
       operationType = 'add';

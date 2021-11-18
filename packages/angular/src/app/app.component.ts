@@ -1,17 +1,5 @@
-import { Component, VERSION, OnInit, AfterViewChecked, DoCheck, OnChanges, OnDestroy } from '@angular/core';
-import { performanceAPI, SaveToJSON, generateData, saveUserTimings as saveTimings } from '../../../../utils';
-
-class Timer {
-  constructor(private readonly operationType: string) {
-    this.operationType = operationType;
-    performance.mark(operationType);
-  }
-
-  stop() {
-    performance.measure(this.operationType, this.operationType);
-  }
-}
-
+import { Component, VERSION, OnInit, AfterViewChecked, NgZone, OnDestroy } from '@angular/core';
+import { performanceAPI, SaveToJSON, generateData } from '../../../../utils';
 interface Data {
   id: number;
   firstName: string;
@@ -25,16 +13,15 @@ interface Data {
   templateUrl: './app.component.html',
   styleUrls: ['./../../../../css/styles.css']
 })
-export class AppComponent implements AfterViewChecked, OnInit, DoCheck, OnDestroy {
+export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
   data: Array<Data> = [];
   selected: number = undefined;
   id: number = 1;
   backup: Array<Data> = undefined;
   version: string;
   operationType: string = 'load';
-  private t: Timer;
 
-  constructor() {
+  constructor(private zone: NgZone) {
     this.version = VERSION.full;
     performance.mark(this.operationType);
   }
@@ -44,17 +31,14 @@ export class AppComponent implements AfterViewChecked, OnInit, DoCheck, OnDestro
       const perf = performanceAPI();
       new SaveToJSON(perf, 'angular.json').download();
     });
-
-    performance.measure(this.operationType, this.operationType);
-  }
-
-  ngDoCheck() {
-    this.t = new Timer(this.operationType);
   }
 
   ngAfterViewChecked(): void {
-    // performance.measure(this.operationType, this.operationType);
-    this.t.stop();
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        performance.measure(this.operationType, this.operationType);
+      });
+    });
   }
 
   ngOnDestroy(): void {
@@ -62,7 +46,9 @@ export class AppComponent implements AfterViewChecked, OnInit, DoCheck, OnDestro
   }
 
   saveUserTimings() {
-    saveTimings();
+    const userTiming = performance.getEntriesByType('measure');
+    const excludeZoneTimings = userTiming.filter((ent) => !ent.name.includes('Zone'));
+    new SaveToJSON(excludeZoneTimings, 'angularUserTimings.json').download();
   }
 
   itemById(index: number, item: Data) {

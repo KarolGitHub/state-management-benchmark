@@ -18,7 +18,7 @@ export default {
     },
 
     saveUserTimings() {
-      userTimings();
+      userTimings('vue');
     },
 
     add() {
@@ -40,7 +40,7 @@ export default {
     select(id) {
       this.operationType = 'select';
       this.selected = id;
-      performance.measure(this.operationType, this.operationType);
+      performance.mark(this.operationType);
     },
 
     run() {
@@ -100,7 +100,7 @@ export default {
     performance.measure(this.operationType, this.operationType);
   },
   updated() {
-    performance.measure(this.operationType, this.operationType);
+    setTimeout(() => performance.measure(this.operationType, this.operationType));
   },
   beforeUnmount() {
     window.removeEventListener('load', () => {});

@@ -97,7 +97,7 @@ const TestPanel = memo(
         <div className="col-md-6">
           <h1>React Hooks</h1>
           <div className="col-md-6 p-0">
-            <button type="button" className="btn btn-primary btn-block" onClick={() => saveUserTimings()}>
+            <button type="button" className="btn btn-primary btn-block" onClick={() => saveUserTimings('react-hooks')}>
               Get Timings
             </button>
           </div>
@@ -178,7 +178,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    performance.measure(operationType, operationType);
+    setTimeout(() => {
+      performance.measure(operationType, operationType);
+    });
   });
 
   return (

@@ -91,9 +91,9 @@ export function performanceAPI() {
   };
 }
 
-export function saveUserTimings() {
+export function saveUserTimings(filename) {
   const userTiming = performance.getEntriesByType('measure');
-  new SaveToJSON(userTiming, 'userTimings.json').download();
+  new SaveToJSON(userTiming, `${filename}UserTimings.json`).download();
 }
 export function markFunTime(fun) {
   console.log(fun);
