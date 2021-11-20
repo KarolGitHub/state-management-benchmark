@@ -1,5 +1,5 @@
 import { Component, VERSION, OnInit, AfterViewChecked, NgZone, OnDestroy } from '@angular/core';
-import { performanceAPI, SaveToJSON, generateData } from '../../../../utils';
+import { performanceAPI, saveToJSON, generateData } from '../../../../utils';
 interface Data {
   id: number;
   firstName: string;
@@ -29,7 +29,7 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
   ngOnInit(): void {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
-      new SaveToJSON(perf, 'angular.json').download();
+      saveToJSON(perf, 'angular.json');
     });
   }
 
@@ -48,7 +48,7 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
   saveUserTimings() {
     const userTiming = performance.getEntriesByType('measure');
     const excludeZoneTimings = userTiming.filter((ent) => !ent.name.includes('Zone'));
-    new SaveToJSON(excludeZoneTimings, 'angularUserTimings.json').download();
+    saveToJSON(excludeZoneTimings, 'angularUserTimings.json');
   }
 
   itemById(index: number, item: Data) {

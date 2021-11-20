@@ -1,3 +1,3 @@
 export * from './performance';
-export * from './SaveToJSON';
+export * from './saveToJSON';
 export * from './generateData';

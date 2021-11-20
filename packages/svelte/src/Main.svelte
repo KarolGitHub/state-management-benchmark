@@ -1,5 +1,5 @@
 <script>
-  import { performanceAPI, SaveToJSON, generateData, saveUserTimings as saveTimings } from '../../../utils';
+  import { performanceAPI, saveToJSON, generateData, saveUserTimings as saveTimings } from '../../../utils';
   import { onMount, afterUpdate } from 'svelte';
 
   let data = [],
@@ -9,7 +9,7 @@
   onMount(async () => {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
-      new SaveToJSON(perf, 'svelte.json').download();
+      saveToJSON(perf, 'svelte.json');
     });
 
     performance.mark(operationType);

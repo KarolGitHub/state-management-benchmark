@@ -1,7 +1,7 @@
 import { memo, useEffect, useReducer } from 'react';
 import { render } from 'react-dom';
 
-import { performanceAPI, SaveToJSON, generateData, saveUserTimings } from '../../../utils';
+import { performanceAPI, saveToJSON, generateData, saveUserTimings } from '../../../utils';
 import './../../../css/styles.css';
 
 const initialState = { data: [], selected: 0 };
@@ -172,7 +172,7 @@ const App = () => {
   useEffect(() => {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
-      new SaveToJSON(perf, 'react.json').download();
+      saveToJSON(perf, 'react.json');
     });
     return window.removeEventListener('load', () => {});
   }, []);

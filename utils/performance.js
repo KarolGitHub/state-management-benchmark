@@ -1,4 +1,4 @@
-import { SaveToJSON } from './';
+import { saveToJSON } from './';
 export function performanceAPI() {
   'use strict';
 
@@ -93,7 +93,7 @@ export function performanceAPI() {
 
 export function saveUserTimings(filename) {
   const userTiming = performance.getEntriesByType('measure');
-  new SaveToJSON(userTiming, `${filename}UserTimings.json`).download();
+  saveToJSON(userTiming, `${filename}UserTimings.json`);
 }
 export function markFunTime(fun) {
   console.log(fun);

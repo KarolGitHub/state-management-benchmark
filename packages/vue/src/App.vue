@@ -1,5 +1,5 @@
 <script>
-import { performanceAPI, SaveToJSON, generateData, saveUserTimings as userTimings } from '../../../utils';
+import { performanceAPI, saveToJSON, generateData, saveUserTimings as userTimings } from '../../../utils';
 
 performance.mark('load');
 
@@ -94,7 +94,7 @@ export default {
   mounted() {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
-      new SaveToJSON(perf, 'vue.json').download();
+      saveToJSON(perf, 'vue.json');
     });
 
     performance.measure(this.operationType, this.operationType);
@@ -169,7 +169,7 @@ export default {
         <td class="col-md-4">{{ birthday }}</td>
         <td class="col-md-1">
           <a @click="remove(id)">
-            <span class="fas fa-trash" aria-hidden="true"></span>
+            <span class="fas fa-trash text-danger" aria-hidden="true"></span>
           </a>
         </td>
         <td class="col-md-6"></td>
