@@ -1,5 +1,5 @@
 import { Component, VERSION, OnInit, AfterViewChecked, NgZone, OnDestroy } from '@angular/core';
-import { performanceAPI, saveToJSON, generateData } from '../../../../utils';
+import { performanceAPI, saveToJSON, generateData, dataJSON } from '../../../../utils';
 interface Data {
   id: number;
   firstName: string;
@@ -19,7 +19,7 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
   id: number = 1;
   backup: Array<Data> = undefined;
   version: string;
-  operationType: string = 'load';
+  operationType: string = 'init';
 
   constructor(private zone: NgZone) {
     this.version = VERSION.full;
@@ -116,5 +116,11 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
       this.data[1] = this.data[998];
       this.data[998] = a;
     }
+  }
+  load() {
+    this.operationType = 'load';
+    performance.mark(this.operationType);
+    this.data = dataJSON;
+    this.selected = undefined;
   }
 }

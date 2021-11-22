@@ -1,13 +1,8 @@
 <div class="container">
   <div class="jumbotron d-flex">
-    <div class="col-md-6">
+    <div class="col-md-2">
       <div class="row">
         <h1>Angular {{ version }}</h1>
-        <div class="col-md-6 p-2">
-          <button type="button" class="btn btn-primary btn-block m-2" id="run" (click)="saveUserTimings()">
-            Get Timings
-          </button>
-        </div>
       </div>
     </div>
     <div class="col-md-6">
@@ -36,11 +31,27 @@
         </div>
         <div class="w-100"></div>
         <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="clear" (click)="clear()">Clear</button>
-        </div>
-        <div class="col smallpad">
           <button type="button" class="btn btn-primary btn-block w-100 m-2" id="swaprows" (click)="swapRows()">
             Swap Rows
+          </button>
+        </div>
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="clear" (click)="clear()">Clear</button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="load" (click)="load()">
+            Load Data
+          </button>
+        </div>
+        <div class="col smallpad">
+          <button
+            type="button"
+            class="btn btn-primary btn-block w-100 m-2"
+            id="saveUserTimings"
+            (click)="saveUserTimings()"
+          >
+            Get Timings
           </button>
         </div>
       </div>

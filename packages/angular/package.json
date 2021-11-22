@@ -5,12 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "dev": "webpack-dev-server --content-base dist",
     "test": "ng test",
     "lint": "ng lint",
     "build-prod": "ng build --prod=true --buildOptimizer=true --sourceMap=false",
-    "build-dev": "ng serve --prod=true",
-    "serve": "serve dist -p 4201"
+    "build-dev": "ng serve --prod=true"
   },
   "dependencies": {
     "@angular/common": "12.0.1",
@@ -26,13 +24,10 @@
     "@angular/cli": "12.0.1",
     "@angular/compiler-cli": "12.0.1",
     "@angular/language-service": "12.0.1",
-    "@types/node": "13.13.0",
-    "css-loader": "^6.5.1",
+    "@types/node": "^13.13.0",
     "serve": "^13.0.2",
-    "style-loader": "^3.3.1",
     "ts-node": "8.8.2",
     "tslint": "~6.1.0",
-    "typescript": "4.2.4",
-    "url-loader": "^4.1.1"
+    "typescript": "4.2.4"
   }
 }

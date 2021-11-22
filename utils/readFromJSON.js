@@ -1,3 +1,1 @@
-import { readFileSync } from 'fs';
-
-const obj = JSON.parse(readFileSync('file.json', 'utf8'));
+export const dataJSON = require('./data.json');

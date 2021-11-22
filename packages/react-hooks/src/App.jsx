@@ -1,11 +1,11 @@
 import { memo, useEffect, useReducer } from 'react';
 import { render } from 'react-dom';
 
-import { performanceAPI, saveToJSON, generateData, saveUserTimings } from '../../../utils';
+import { performanceAPI, saveToJSON, generateData, saveUserTimings, dataJSON } from '../../../utils';
 import './../../../css/styles.css';
 
 const initialState = { data: [], selected: 0 };
-let operationType = 'load';
+let operationType = 'init';
 performance.mark(operationType);
 
 const listReducer = (state, action) => {
@@ -47,6 +47,8 @@ const listReducer = (state, action) => {
     }
     case 'SELECT':
       return { data, selected: action.id };
+    case 'LOAD':
+      return { data: dataJSON, selected: 0 };
     default:
       return state;
   }
@@ -94,13 +96,8 @@ const TestPanel = memo(
   ({ dispatch }) => (
     <div className="jumbotron">
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-2">
           <h1>React Hooks</h1>
-          <div className="col-md-6 p-0">
-            <button type="button" className="btn btn-primary btn-block" onClick={() => saveUserTimings('react-hooks')}>
-              Get Timings
-            </button>
-          </div>
         </div>
         <div className="col-md-6">
           <div className="row">
@@ -141,6 +138,15 @@ const TestPanel = memo(
               }}
             />
             <Button
+              id="swapRows"
+              title="Swap Rows"
+              clicked={() => {
+                operationType = 'swap';
+                performance.mark(operationType);
+                dispatch({ type: 'SWAP_ROWS' });
+              }}
+            />
+            <Button
               id="clear"
               title="Clear"
               clicked={() => {
@@ -150,14 +156,15 @@ const TestPanel = memo(
               }}
             />
             <Button
-              id="swapRows"
-              title="Swap Rows"
+              id="load"
+              title="Load Data"
               clicked={() => {
-                operationType = 'swap';
+                operationType = 'load';
                 performance.mark(operationType);
-                dispatch({ type: 'SWAP_ROWS' });
+                dispatch({ type: 'LOAD' });
               }}
             />
+            <Button title="Get Timings" clicked={() => saveUserTimings('react-hooks')} />
           </div>
         </div>
       </div>

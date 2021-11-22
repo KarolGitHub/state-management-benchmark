@@ -1,10 +1,10 @@
 <script>
-  import { performanceAPI, saveToJSON, generateData, saveUserTimings as saveTimings } from '../../../utils';
+  import { performanceAPI, saveToJSON, generateData, saveUserTimings as saveTimings, dataJSON } from '../../../utils';
   import { onMount, afterUpdate } from 'svelte';
 
   let data = [],
     selected = undefined,
-    operationType = 'load';
+    operationType = 'init';
 
   onMount(async () => {
     window.addEventListener('load', () => {
@@ -76,18 +76,19 @@
       if (data.length > 998) {
         data = [data[0], data[998], ...data.slice(2, 998), data[1], data[999]];
       }
+    },
+    load = () => {
+      operationType = 'load';
+      performance.mark(operationType);
+      data = dataJSON;
+      selected = undefined;
     };
 </script>
 
 <div class="jumbotron">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-2">
       <h1>Svelte</h1>
-      <div class="col-md-6">
-        <button type="button" class="btn btn-primary btn-block" id="getUserTimings" on:click={saveUserTimings}>
-          Get Timings
-        </button>
-      </div>
     </div>
     <div class="col-md-6">
       <div class="row">
@@ -118,6 +119,14 @@
           <button type="button" class="btn btn-primary btn-block w-100" id="swaprows" on:click={swapRows}
             >Swap Rows</button
           >
+        </div>
+        <div class="col-sm-6 smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100" id="load" on:click={load}> Load Data </button>
+        </div>
+        <div class="col-sm-6 smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100" id="getUserTimings" on:click={saveUserTimings}>
+            Get Timings
+          </button>
         </div>
       </div>
     </div>

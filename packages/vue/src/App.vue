@@ -1,12 +1,12 @@
 <script>
-import { performanceAPI, saveToJSON, generateData, saveUserTimings as userTimings } from '../../../utils';
+import { performanceAPI, saveToJSON, generateData, saveUserTimings as userTimings, dataJSON } from '../../../utils';
 
-performance.mark('load');
+performance.mark('init');
 
 export default {
   data() {
     return {
-      operationType: 'load',
+      operationType: 'init',
       selected: undefined,
       rows: [],
       stopTimer: null
@@ -25,6 +25,13 @@ export default {
       this.operationType = 'add';
       performance.mark(this.operationType);
       this.rows = this.rows.concat(generateData(1000));
+    },
+
+    load() {
+      this.operationType = 'load';
+      performance.mark(this.operationType);
+      this.rows = dataJSON;
+      this.selected = undefined;
     },
 
     remove(id) {
@@ -111,13 +118,8 @@ export default {
 <template>
   <div class="jumbotron">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-2">
         <h1>Vue.js 3</h1>
-        <div class="col-md-6">
-          <button type="button" class="btn btn-primary btn-block" id="getUserTimings" @click="saveUserTimings()">
-            Get Timings
-          </button>
-        </div>
       </div>
       <div class="col-md-6">
         <div class="row">
@@ -142,11 +144,24 @@ export default {
             </button>
           </div>
           <div class="col-sm-6 smallpad">
+            <button type="button" class="btn btn-primary btn-block w-100" id="swaprows" @click="swapRows()">
+              Swap Rows
+            </button>
+          </div>
+          <div class="col-sm-6 smallpad">
             <button type="button" class="btn btn-primary btn-block w-100" id="clear" @click="clear()">Clear</button>
           </div>
           <div class="col-sm-6 smallpad">
-            <button type="button" class="btn btn-primary btn-block w-100" id="swaprows" @click="swapRows()">
-              Swap Rows
+            <button type="button" class="btn btn-primary btn-block w-100" id="load" @click="load()">Load Data</button>
+          </div>
+          <div class="col-sm-6 smallpad">
+            <button
+              type="button"
+              class="btn btn-primary btn-block w-100"
+              id="saveUserTimings"
+              @click="saveUserTimings()"
+            >
+              Get Timings
             </button>
           </div>
         </div>
