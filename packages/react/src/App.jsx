@@ -96,11 +96,16 @@ const TestPanel = memo(
   ({ dispatch }) => (
     <div className="jumbotron">
       <div className="row">
-        <div className="col-md-2">
+        <div className="col-md-2 p-1 me-2">
           <h1>
             React <br />
             v17.0.1
           </h1>
+          <div className="card bg-light" style={{ width: '120px' }}>
+            <a className="nav-link" href="http://localhost:3000">
+              <span className="fas fa-arrow-left" aria-hidden="true"></span> Go back
+            </a>
+          </div>
         </div>
         <div className="col-md-6">
           <div className="row">

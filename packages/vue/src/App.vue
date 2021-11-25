@@ -118,11 +118,16 @@ export default {
 <template>
   <div class="jumbotron">
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-2 p-1 me-2">
         <h1>
           Vue.js <br />
           v3.2.1
         </h1>
+        <div class="card bg-light" style="width: 120px">
+          <a class="nav-link" href="http://localhost:3000">
+            <span class="fas fa-arrow-left" aria-hidden="true"></span> Go back
+          </a>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="row">
