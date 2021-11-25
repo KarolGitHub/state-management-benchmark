@@ -1,5 +1,5 @@
 {
-  "name": "@state-management-dashboard/react-hooks",
+  "name": "@state-management-benchmark/react",
   "version": "0.1.0",
   "scripts": {
     "start": "webpack --watch",

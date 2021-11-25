@@ -76,7 +76,7 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'react_hooks',
+      name: 'react',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/App.jsx'

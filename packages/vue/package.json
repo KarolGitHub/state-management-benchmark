@@ -1,5 +1,5 @@
 {
-  "name": "@state-management-dashboard/vue",
+  "name": "@state-management-benchmark/vue",
   "version": "0.1.0",
   "scripts": {
     "start": "webpack --watch",

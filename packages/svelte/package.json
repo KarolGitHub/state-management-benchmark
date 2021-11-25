@@ -1,5 +1,5 @@
 {
-  "name": "@state-management-dashboard/svelte",
+  "name": "@state-management-benchmark/svelte",
   "version": "0.1.0",
   "scripts": {
     "start": "webpack --watch",

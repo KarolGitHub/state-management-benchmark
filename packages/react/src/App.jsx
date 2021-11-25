@@ -21,7 +21,7 @@ const listReducer = (state, action) => {
     case 'UPDATE': {
       const newData = data.slice(0);
 
-      for (let i = 0; i < newData.length; i += 10) {
+      for (let i = 0; i < newData.length; i += 1) {
         const r = newData[i];
         newData[i] = {
           id: r.id,
@@ -97,7 +97,10 @@ const TestPanel = memo(
     <div className="jumbotron">
       <div className="row">
         <div className="col-md-2">
-          <h1>React Hooks</h1>
+          <h1>
+            React <br />
+            v17.0.1
+          </h1>
         </div>
         <div className="col-md-6">
           <div className="row">
@@ -139,7 +142,7 @@ const TestPanel = memo(
             />
             <Button
               id="swapRows"
-              title="Swap Rows"
+              title="Swap rows"
               clicked={() => {
                 operationType = 'swap';
                 performance.mark(operationType);
@@ -148,7 +151,7 @@ const TestPanel = memo(
             />
             <Button
               id="clear"
-              title="Clear"
+              title="Clear rows"
               clicked={() => {
                 operationType = 'clear';
                 performance.mark(operationType);
@@ -157,14 +160,14 @@ const TestPanel = memo(
             />
             <Button
               id="load"
-              title="Load Data"
+              title="Load 1,000 rows"
               clicked={() => {
                 operationType = 'load';
                 performance.mark(operationType);
                 dispatch({ type: 'LOAD' });
               }}
             />
-            <Button title="Get Timings" clicked={() => saveUserTimings('react-hooks')} />
+            <Button title="Get timings" clicked={() => saveUserTimings('react')} />
           </div>
         </div>
       </div>

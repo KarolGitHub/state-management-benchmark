@@ -88,7 +88,10 @@
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-2">
-      <h1>Svelte</h1>
+      <h1>
+        Svelte <br />
+        v3.42.1
+      </h1>
     </div>
     <div class="col-md-6">
       <div class="row">
@@ -113,19 +116,21 @@
           >
         </div>
         <div class="col-sm-6 smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100" id="clear" on:click={clear}>Clear</button>
-        </div>
-        <div class="col-sm-6 smallpad">
           <button type="button" class="btn btn-primary btn-block w-100" id="swaprows" on:click={swapRows}
-            >Swap Rows</button
+            >Swap rows</button
           >
         </div>
         <div class="col-sm-6 smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100" id="load" on:click={load}> Load Data </button>
+          <button type="button" class="btn btn-primary btn-block w-100" id="clear" on:click={clear}>Clear rows</button>
+        </div>
+        <div class="col-sm-6 smallpad">
+          <button type="button" class="btn btn-primary btn-block w-100" id="load" on:click={load}>
+            Load 1,000 rows
+          </button>
         </div>
         <div class="col-sm-6 smallpad">
           <button type="button" class="btn btn-primary btn-block w-100" id="getUserTimings" on:click={saveUserTimings}>
-            Get Timings
+            Get timings
           </button>
         </div>
       </div>

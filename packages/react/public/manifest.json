@@ -1,6 +1,6 @@
 {
-  "short_name": "react-hooks",
-  "name": "react-hooks",
+  "short_name": "react",
+  "name": "react",
   "icons": [
     {
       "src": "favicon.ico",

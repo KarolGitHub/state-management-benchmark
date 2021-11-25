@@ -1,5 +1,5 @@
 {
-  "name": "@state-management-dashboard/angular",
+  "name": "@state-management-benchmark/angular",
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
