@@ -6,58 +6,91 @@
           Angular <br />
           v{{ version }}
         </h1>
-        <div class="card bg-light" style="width: 150px">
+        <div class="card bg-light" style="width: 140px">
           <a class="nav-link" href="http://localhost:3000">
             <span class="fas fa-arrow-left" aria-hidden="true"></span> Go back
           </a>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-9">
       <div class="row">
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="run" (click)="run()" ref="text">
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="createFew" (click)="create(100, $event)">
+            Create 100 rows
+          </button>
+        </div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="create" (click)="create(1000, $event)">
             Create 1,000 rows
           </button>
         </div>
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="runlots" (click)="runLots()">
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="createLots" (click)="create(10000, $event)">
             Create 10,000 rows
           </button>
         </div>
         <div class="w-100"></div>
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="add" (click)="add()" ref="text">
-            Append 1,000 rows
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="addFew" (click)="add(100, $event)">
+            Add 100 rows
           </button>
         </div>
-
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="update" (click)="update()">
-            Update every 10th row
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="add" (click)="add(1000, $event)">
+            Add 1,000 rows
           </button>
         </div>
-        <div class="w-100"></div>
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="swaprows" (click)="swapRows()">
-            Swap rows
-          </button>
-        </div>
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="clear" (click)="clear()">
-            Clear rows
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="addLots" (click)="add(10000, $event)">
+            Add 10,000 rows
           </button>
         </div>
         <div class="w-100"></div>
-        <div class="col smallpad">
-          <button type="button" class="btn btn-primary btn-block w-100 m-2" id="load" (click)="load()">
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="swapFew" (click)="swap(50, $event)">
+            Swap 100 rows
+          </button>
+        </div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="swap" (click)="swap(500, $event)">
+            Swap 1,000 rows
+          </button>
+        </div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="swapLots" (click)="swap(5000, $event)">
+            Swap 10,000 rows
+          </button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="loadFew" (click)="load(100, $event)">
+            Load 100 rows
+          </button>
+        </div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="load" (click)="load(1000, $event)">
             Load 1,000 rows
           </button>
         </div>
-        <div class="col smallpad">
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="loadLots" (click)="load(10000, $event)">
+            Load 10,000 rows
+          </button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="update" (click)="update()">
+            Update All rows
+          </button>
+        </div>
+        <div class="col p-2">
+          <button type="button" class="btn btn-primary btn-block w-100" id="clear" (click)="clear()">Clear rows</button>
+        </div>
+        <div class="col p-2">
           <button
             type="button"
-            class="btn btn-primary btn-block w-100 m-2"
+            class="btn btn-primary btn-block w-100"
             id="saveUserTimings"
             (click)="saveUserTimings()"
           >
@@ -68,6 +101,17 @@
     </div>
   </div>
   <table class="table table-hover table-striped test-data">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Full Name</th>
+        <th>Active</th>
+        <th>Birthdate</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
       <tr
         [class.danger]="item.id === selected"
@@ -75,10 +119,11 @@
         (click)="select(item, $event)"
       >
         <td class="col-md-1">{{ item.id }}</td>
-        <td class="col-md-4">{{ item.firstName }}</td>
-        <td class="col-md-4">{{ item.lastName }}</td>
-        <td class="col-md-4">{{ item.birthday }}</td>
+        <td class="col-md-3">{{ item.name }}</td>
+        <td class="col-md-1">{{ +item.active }}</td>
+        <td class="col-md-2">{{ item.birthday }}</td>
         <td class="col-md-4">{{ item.email }}</td>
+        <td class="col-md-2">{{ item.salary }}</td>
         <td class="col-md-1">
           <a href="#" (click)="delete(item, $event)"
             ><span class="fas fa-trash text-danger" aria-hidden="true"></span

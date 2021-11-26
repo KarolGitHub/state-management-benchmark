@@ -1,11 +1,12 @@
-import { Component, VERSION, OnInit, AfterViewChecked, NgZone, OnDestroy } from '@angular/core';
-import { performanceAPI, saveToJSON, generateData, dataJSON } from '../../../../utils';
+import { Component, VERSION, AfterViewChecked, NgZone } from '@angular/core';
+import { saveToJSON, generateData, dataJSON } from '../../../../utils';
 interface Data {
   id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  name: string;
+  active: boolean;
   birthday: string;
+  email: string;
+  salary: number;
 }
 
 @Component({
@@ -13,7 +14,7 @@ interface Data {
   templateUrl: './app.component.html',
   styleUrls: ['./../../../../css/styles.css']
 })
-export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
+export class AppComponent implements AfterViewChecked {
   data: Array<Data> = [];
   selected: number = undefined;
   id: number = 1;
@@ -26,12 +27,12 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
     performance.mark(this.operationType);
   }
 
-  ngOnInit(): void {
+  /*   ngOnInit(): void {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'angular.json');
     });
-  }
+  } */
 
   ngAfterViewChecked(): void {
     this.zone.runOutsideAngular(() => {
@@ -41,18 +42,48 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  /* ngOnDestroy(): void {
     window.removeEventListener('load', () => {});
-  }
-
-  saveUserTimings() {
-    const userTiming = performance.getEntriesByType('measure');
-    const excludeZoneTimings = userTiming.filter((ent) => !ent.name.includes('Zone'));
-    saveToJSON(excludeZoneTimings, 'angularUserTimings.json');
-  }
+  } */
 
   itemById(index: number, item: Data) {
     return item.id;
+  }
+
+  create(count: number, event: Event) {
+    this.operationType = `create ${count}`;
+    performance.mark(this.operationType);
+    event.preventDefault();
+    this.data = generateData(count);
+    this.selected = undefined;
+  }
+
+  add(count: number, event: Event) {
+    this.operationType = `add ${count}`;
+    performance.mark(this.operationType);
+    event.preventDefault();
+    this.data = this.data.concat(generateData(count));
+  }
+
+  swap(count: number, event: Event) {
+    this.operationType = `swap ${count}`;
+    performance.mark(this.operationType);
+    event.preventDefault();
+    if (this.data.length >= 2 * count) {
+      this.data = [
+        ...this.data.slice(this.data.length - count),
+        ...this.data.slice(count, this.data.length - count),
+        ...this.data.slice(0, count)
+      ];
+    }
+  }
+
+  load(count: number, event: Event) {
+    this.operationType = `load ${count}`;
+    performance.mark(this.operationType);
+    event.preventDefault();
+    this.data = dataJSON.slice(0, count);
+    this.selected = undefined;
   }
 
   select(item: Data, event: Event) {
@@ -74,53 +105,28 @@ export class AppComponent implements AfterViewChecked, OnInit, OnDestroy {
     }
   }
 
-  run() {
-    this.operationType = 'create';
-    performance.mark(this.operationType);
-    this.data = generateData(1000);
-  }
-
-  add() {
-    this.operationType = 'add';
-    performance.mark(this.operationType);
-    this.data = this.data.concat(generateData(1000));
-  }
-
   update() {
     this.operationType = 'update';
     performance.mark(this.operationType);
-    for (let i = 0; i < this.data.length; i += 10) {
-      this.data[i].firstName += '_updated';
-      this.data[i].lastName += '_updated';
-      this.data[i].email += '_updated';
-      this.data[i].birthday += '_updated';
+    for (let i = 0; i < this.data.length; i += 1) {
+      this.data[i].name += '!';
+      this.data[i].active = !this.data[i].active;
+      this.data[i].birthday = new Date(+new Date() - Math.floor(Math.random() * 10000000000)).toLocaleDateString();
+      this.data[i].email += '!';
+      this.data[i].salary += 200;
     }
   }
-  runLots() {
-    this.operationType = 'create lots';
-    performance.mark(this.operationType);
-    this.data = generateData(10000);
-    this.selected = undefined;
-  }
+
   clear() {
     this.operationType = 'clear';
     performance.mark(this.operationType);
     this.data = [];
     this.selected = undefined;
   }
-  swapRows() {
-    this.operationType = 'swap';
-    performance.mark(this.operationType);
-    if (this.data.length > 998) {
-      var a = this.data[1];
-      this.data[1] = this.data[998];
-      this.data[998] = a;
-    }
-  }
-  load() {
-    this.operationType = 'load';
-    performance.mark(this.operationType);
-    this.data = dataJSON;
-    this.selected = undefined;
+
+  saveUserTimings() {
+    const userTiming = performance.getEntriesByType('measure');
+    const excludeZoneTimings = userTiming.filter((ent) => !ent.name.includes('Zone'));
+    saveToJSON(excludeZoneTimings, 'angularUserTimings.json');
   }
 }

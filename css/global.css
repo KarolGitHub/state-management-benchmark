@@ -31,6 +31,9 @@ code {
 .col-md-4 a {
   cursor: pointer;
 }
+.w-nav {
+  width: 120px;
+}
 tr:hover {
   cursor: pointer;
 }

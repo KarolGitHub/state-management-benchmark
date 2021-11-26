@@ -11,13 +11,15 @@ const generatePerson = function() {
     const lastName = lastNames[random(lastNames.length)];
     const birthday = new Date(+(new Date()) - Math.floor(Math.random()*10000000000)).toLocaleDateString();
 		const email = (firstName.replace('-', '_') + '_' + lastName.replace('-', '_') + '@example.com').toLowerCase();
-    
+    const salary = 10*random(1000) + 1000
+		const active = Math.random() < 0.5;
     return {
 			id: nextId++,
-			firstName,
-			lastName,
+			name: `${firstName} ${lastName}`,
+			active,
+			birthday,
 			email,
-			birthday
+			salary,
 		};
 };
 

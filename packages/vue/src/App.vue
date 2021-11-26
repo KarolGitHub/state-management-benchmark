@@ -1,5 +1,5 @@
 <script>
-import { performanceAPI, saveToJSON, generateData, saveUserTimings as userTimings, dataJSON } from '../../../utils';
+import { generateData, saveUserTimings as saveTimings, dataJSON } from '../../../utils';
 
 performance.mark('init');
 
@@ -17,21 +17,39 @@ export default {
       this.rows = update;
     },
 
-    saveUserTimings() {
-      userTimings('vue');
-    },
-
-    add() {
-      this.operationType = 'add';
+    create(count) {
+      this.operationType = `create ${count}`;
       performance.mark(this.operationType);
-      this.rows = this.rows.concat(generateData(1000));
-    },
-
-    load() {
-      this.operationType = 'load';
-      performance.mark(this.operationType);
-      this.rows = dataJSON;
+      this.setRows(generateData(count));
       this.selected = undefined;
+    },
+
+    add(count) {
+      this.operationType = `add ${count}`;
+      performance.mark(this.operationType);
+      this.rows = this.rows.concat(generateData(count));
+      this.setRows();
+    },
+
+    swap(count) {
+      this.operationType = `swap ${count}`;
+      performance.mark(this.operationType);
+      if (this.rows.length >= 2 * count) {
+        this.rows = [
+          ...this.rows.slice(this.rows.length - count),
+          ...this.rows.slice(count, this.rows.length - count),
+          ...this.rows.slice(0, count)
+        ];
+        this.setRows();
+      }
+    },
+
+    load(count) {
+      this.operationType = `load ${count}`;
+      performance.mark(this.operationType);
+      this.rows = dataJSON.slice(0, count);
+      this.selected = undefined;
+      this.setRows();
     },
 
     remove(id) {
@@ -46,35 +64,22 @@ export default {
 
     select(id) {
       this.operationType = 'select';
+      performance.mark(this.operationType);
       this.selected = id;
-      performance.mark(this.operationType);
-    },
-
-    run() {
-      this.operationType = 'create';
-      performance.mark(this.operationType);
-      this.setRows(generateData(1000));
-      this.selected = undefined;
     },
 
     update() {
       this.operationType = 'update';
       performance.mark(this.operationType);
-      const _rows = this.rows;
-      for (let i = 0; i < _rows.length; i += 10) {
-        _rows[i].firstName += '_updated';
-        _rows[i].lastName += '_updated';
-        _rows[i].email += '_updated';
-        _rows[i].birthday += '_updated';
+      const newRows = this.rows;
+      for (let i = 0; i < newRows.length; i += 1) {
+        newRows[i].name += '!';
+        newRows[i].active = !newRows[i].active;
+        newRows[i].birthday = new Date(+new Date() - Math.floor(Math.random() * 10000000000)).toLocaleDateString();
+        newRows[i].email += '!';
+        newRows[i].salary += 200;
       }
       this.setRows();
-    },
-
-    runLots() {
-      this.operationType = 'create lots';
-      performance.mark(this.operationType);
-      this.setRows(generateData(10000));
-      this.selected = undefined;
     },
 
     clear() {
@@ -83,35 +88,25 @@ export default {
       this.setRows([]);
       this.selected = undefined;
     },
-
-    swapRows() {
-      this.operationType = 'swap';
-      performance.mark(this.operationType);
-      const _rows = this.rows;
-      if (_rows.length > 998) {
-        const d1 = _rows[1];
-        const d998 = _rows[998];
-        _rows[1] = d998;
-        _rows[998] = d1;
-        this.setRows();
-      }
+    saveUserTimings() {
+      saveTimings('vue');
     }
   },
 
-  mounted() {
+  /* mounted() {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'vue.json');
     });
 
     performance.measure(this.operationType, this.operationType);
-  },
+  }, */
   updated() {
     setTimeout(() => performance.measure(this.operationType, this.operationType));
-  },
-  beforeUnmount() {
-    window.removeEventListener('load', () => {});
   }
+  /*  beforeUnmount() {
+    window.removeEventListener('load', () => {});
+  } */
 };
 </script>
 
@@ -123,50 +118,85 @@ export default {
           Vue.js <br />
           v3.2.1
         </h1>
-        <div class="card bg-light" style="width: 120px">
+        <div class="card bg-light w-nav">
           <a class="nav-link" href="http://localhost:3000">
             <span class="fas fa-arrow-left" aria-hidden="true"></span> Go back
           </a>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-9">
         <div class="row">
-          <div class="col-sm-6 smallpad">
-            <button type="button" class="btn btn-primary btn-block w-100" id="run" @click="run()">
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="createFew" @click="create(100)">
+              Create 100 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="create" @click="create(1000)">
               Create 1,000 rows
             </button>
           </div>
-          <div class="col-sm-6 smallpad">
-            <button type="button" class="btn btn-primary btn-block w-100" id="runlots" @click="runLots()">
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="createLots" @click="create(10000)">
               Create 10,000 rows
             </button>
           </div>
-          <div class="col-sm-6 smallpad">
-            <button type="button" class="btn btn-primary btn-block w-100" id="add" @click="add()">
-              Append 1,000 rows
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="addFew" @click="add(100)">
+              Add 100 rows
             </button>
           </div>
-          <div class="col-sm-6 smallpad">
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="add" @click="add(1000)">
+              Add 1,000 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="addLots" @click="add(10000)">
+              Add 10,000 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="swapFew" @click="swap(50)">
+              Swap 100 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="swap" @click="swap(500)">
+              Swap 1,000 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="swapLots" @click="swap(5000)">
+              Swap 10,000 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="loadFew" @click="load(100)">
+              Load 100 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="load" @click="load(1000)">
+              Load 1,000 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
+            <button type="button" class="btn btn-primary btn-block w-100" id="loadLots" @click="load(10000)">
+              Load 10,000 rows
+            </button>
+          </div>
+          <div class="col-sm-4 p-2">
             <button type="button" class="btn btn-primary btn-block w-100" id="update" @click="update()">
-              Update every 10th row
+              Update All rows
             </button>
           </div>
-          <div class="col-sm-6 smallpad">
-            <button type="button" class="btn btn-primary btn-block w-100" id="swaprows" @click="swapRows()">
-              Swap rows
-            </button>
-          </div>
-          <div class="col-sm-6 smallpad">
+          <div class="col-sm-4 p-2">
             <button type="button" class="btn btn-primary btn-block w-100" id="clear" @click="clear()">
               Clear rows
             </button>
           </div>
-          <div class="col-sm-6 smallpad">
-            <button type="button" class="btn btn-primary btn-block w-100" id="load" @click="load()">
-              Load 1,000 rows
-            </button>
-          </div>
-          <div class="col-sm-6 smallpad">
+          <div class="col-sm-4 p-2">
             <button
               type="button"
               class="btn btn-primary btn-block w-100"
@@ -181,19 +211,31 @@ export default {
     </div>
   </div>
   <table class="table table-hover table-striped test-data">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Full Name</th>
+        <th>Active</th>
+        <th>Birthdate</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
       <tr
-        v-for="{ id, firstName, lastName, email, birthday } of rows"
+        v-for="{ id, name, active, birthday, email, salary } of rows"
         :key="id"
         :class="{ danger: id === selected }"
-        v-memo="[firstName, lastName, email, birthday, id === selected]"
+        v-memo="[name, active, birthday, email, salary, id === selected]"
         @click="select(id)"
       >
         <td class="col-md-1">{{ id }}</td>
-        <td class="col-md-4">{{ firstName }}</td>
-        <td class="col-md-4">{{ lastName }}</td>
+        <td class="col-md-3">{{ name }}</td>
+        <td class="col-md-1">{{ +active }}</td>
+        <td class="col-md-2">{{ birthday }}</td>
         <td class="col-md-4">{{ email }}</td>
-        <td class="col-md-4">{{ birthday }}</td>
+        <td class="col-md-2">{{ salary }}</td>
         <td class="col-md-1">
           <a @click="remove(id)">
             <span class="fas fa-trash text-danger" aria-hidden="true"></span>

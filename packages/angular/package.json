@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "serve": "serve dist -p 4201",
     "test": "ng test",
     "lint": "ng lint",
     "build-prod": "ng build --prod=true --buildOptimizer=true --sourceMap=false",
