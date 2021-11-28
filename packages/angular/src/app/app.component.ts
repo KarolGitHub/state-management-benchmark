@@ -1,5 +1,5 @@
 import { Component, VERSION, AfterViewChecked, NgZone } from '@angular/core';
-import { saveToJSON, generateData, dataJSON } from '../../../../utils';
+import { generateData, dataJSON, saveUserTimings as userTimings } from '../../../../utils';
 interface Data {
   id: number;
   name: string;
@@ -66,7 +66,7 @@ export class AppComponent implements AfterViewChecked {
   }
 
   swap(count: number, event: Event) {
-    this.operationType = `swap ${count}`;
+    this.operationType = `swap ${2 * count}`;
     performance.mark(this.operationType);
     event.preventDefault();
     if (this.data.length >= 2 * count) {
@@ -87,14 +87,14 @@ export class AppComponent implements AfterViewChecked {
   }
 
   select(item: Data, event: Event) {
-    this.operationType = 'select';
+    this.operationType = `select ${this.data.length}`;
     performance.mark(this.operationType);
     event.preventDefault();
     this.selected = item.id;
   }
 
   delete(item: Data, event: Event) {
-    this.operationType = 'delete';
+    this.operationType = `delete ${this.data.length}`;
     performance.mark(this.operationType);
     event.preventDefault();
     for (let i = 0, l = this.data.length; i < l; i++) {
@@ -106,7 +106,7 @@ export class AppComponent implements AfterViewChecked {
   }
 
   update() {
-    this.operationType = 'update';
+    this.operationType = `update ${this.data.length}`;
     performance.mark(this.operationType);
     for (let i = 0; i < this.data.length; i += 1) {
       this.data[i].name += '!';
@@ -118,15 +118,13 @@ export class AppComponent implements AfterViewChecked {
   }
 
   clear() {
-    this.operationType = 'clear';
+    this.operationType = `clear ${this.data.length}`;
     performance.mark(this.operationType);
     this.data = [];
     this.selected = undefined;
   }
 
   saveUserTimings() {
-    const userTiming = performance.getEntriesByType('measure');
-    const excludeZoneTimings = userTiming.filter((ent) => !ent.name.includes('Zone'));
-    saveToJSON(excludeZoneTimings, 'angularUserTimings.json');
+    userTimings('angular');
   }
 }

@@ -53,7 +53,7 @@ export default {
     },
 
     remove(id) {
-      this.operationType = 'delete';
+      this.operationType = `delete ${this.rows.length}`;
       performance.mark(this.operationType);
       this.rows.splice(
         this.rows.findIndex((d) => d.id === id),
@@ -63,13 +63,13 @@ export default {
     },
 
     select(id) {
-      this.operationType = 'select';
+      this.operationType = `select ${this.rows.length}`;
       performance.mark(this.operationType);
       this.selected = id;
     },
 
     update() {
-      this.operationType = 'update';
+      this.operationType = `update ${this.rows.length}`;
       performance.mark(this.operationType);
       const newRows = this.rows;
       for (let i = 0; i < newRows.length; i += 1) {
@@ -83,7 +83,7 @@ export default {
     },
 
     clear() {
-      this.operationType = 'clear';
+      this.operationType = `clear ${this.rows.length}`;
       performance.mark(this.operationType);
       this.setRows([]);
       this.selected = undefined;
@@ -228,13 +228,12 @@ export default {
         :key="id"
         :class="{ danger: id === selected }"
         v-memo="[name, active, birthday, email, salary, id === selected]"
-        @click="select(id)"
       >
         <td class="col-md-1">{{ id }}</td>
         <td class="col-md-3">{{ name }}</td>
         <td class="col-md-1">{{ +active }}</td>
         <td class="col-md-2">{{ birthday }}</td>
-        <td class="col-md-4">{{ email }}</td>
+        <td class="col-md-4" @click="select(id)">{{ email }}</td>
         <td class="col-md-2">{{ salary }}</td>
         <td class="col-md-1">
           <a @click="remove(id)">

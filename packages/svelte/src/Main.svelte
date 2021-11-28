@@ -35,7 +35,7 @@
       data = data.concat(generateData(count));
     },
     swap = (count) => {
-      operationType = `swap ${count}`;
+      operationType = `swap ${2 * count}`;
       performance.mark(operationType);
       if (data.length >= 2 * count) {
         data = [
@@ -52,18 +52,18 @@
       selected = undefined;
     },
     remove = (num) => {
-      operationType = 'delete';
+      operationType = `delete ${data.length}`;
       performance.mark(operationType);
       const idx = data.findIndex((d) => d.id === num);
       data = [...data.slice(0, idx), ...data.slice(idx + 1)];
     },
     select = (id) => {
-      operationType = 'select';
+      operationType = `select ${data.length}`;
       performance.mark(operationType);
       selected = id;
     },
     update = () => {
-      operationType = 'update';
+      operationType = `update ${data.length}`;
       performance.mark(operationType);
       for (let i = 0; i < data.length; i += 1) {
         data[i].name += '!';
@@ -74,7 +74,7 @@
       }
     },
     clear = () => {
-      operationType = 'clear';
+      operationType = `clear ${data.length}`;
       performance.mark(operationType);
       data = [];
       selected = undefined;
