@@ -16,9 +16,8 @@ interface Data {
 })
 export class AppComponent implements AfterViewChecked {
   data: Array<Data> = [];
-  selected: number = undefined;
   id: number = 1;
-  backup: Array<Data> = undefined;
+  selected: number = undefined;
   version: string;
   operationType: string = 'init';
 
@@ -65,6 +64,14 @@ export class AppComponent implements AfterViewChecked {
     this.data = this.data.concat(generateData(count));
   }
 
+  load(count: number, event: Event) {
+    this.operationType = `load ${count}`;
+    performance.mark(this.operationType);
+    event.preventDefault();
+    this.data = dataJSON.slice(0, count);
+    this.selected = undefined;
+  }
+
   swap(count: number, event: Event) {
     this.operationType = `swap ${2 * count}`;
     performance.mark(this.operationType);
@@ -76,14 +83,6 @@ export class AppComponent implements AfterViewChecked {
         ...this.data.slice(0, count)
       ];
     }
-  }
-
-  load(count: number, event: Event) {
-    this.operationType = `load ${count}`;
-    performance.mark(this.operationType);
-    event.preventDefault();
-    this.data = dataJSON.slice(0, count);
-    this.selected = undefined;
   }
 
   select(item: Data, event: Event) {

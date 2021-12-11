@@ -22,6 +22,11 @@ const listReducer = (state, action) => {
       performance.mark(operationType);
       return { data: data.concat(generateData(action.count)), selected };
     }
+    case 'LOAD': {
+      operationType = `load ${action.count}`;
+      performance.mark(operationType);
+      return { data: dataJSON.slice(0, action.count), selected: 0 };
+    }
     case 'SWAP': {
       operationType = `swap ${2 * action.count}`;
       performance.mark(operationType);
@@ -35,11 +40,6 @@ const listReducer = (state, action) => {
             selected
           }
         : state;
-    }
-    case 'LOAD': {
-      operationType = `load ${action.count}`;
-      performance.mark(operationType);
-      return { data: dataJSON.slice(0, action.count), selected: 0 };
     }
     case 'DELETE': {
       operationType = `delete ${data.length}`;

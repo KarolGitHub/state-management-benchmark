@@ -31,8 +31,16 @@ export default {
       this.setRows();
     },
 
+    load(count) {
+      this.operationType = `load ${count}`;
+      performance.mark(this.operationType);
+      this.rows = dataJSON.slice(0, count);
+      this.selected = undefined;
+      this.setRows();
+    },
+
     swap(count) {
-      this.operationType = `swap ${count}`;
+      this.operationType = `swap ${2 * count}`;
       performance.mark(this.operationType);
       if (this.rows.length >= 2 * count) {
         this.rows = [
@@ -42,14 +50,6 @@ export default {
         ];
         this.setRows();
       }
-    },
-
-    load(count) {
-      this.operationType = `load ${count}`;
-      performance.mark(this.operationType);
-      this.rows = dataJSON.slice(0, count);
-      this.selected = undefined;
-      this.setRows();
     },
 
     remove(id) {

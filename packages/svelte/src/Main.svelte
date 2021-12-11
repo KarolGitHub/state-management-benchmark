@@ -34,6 +34,12 @@
       performance.mark(operationType);
       data = data.concat(generateData(count));
     },
+    load = (count) => {
+      operationType = `load ${count}`;
+      performance.mark(operationType);
+      data = dataJSON.slice(0, count);
+      selected = undefined;
+    },
     swap = (count) => {
       operationType = `swap ${2 * count}`;
       performance.mark(operationType);
@@ -44,12 +50,6 @@
           ...data.slice(0, count)
         ];
       }
-    },
-    load = (count) => {
-      operationType = `load ${count}`;
-      performance.mark(operationType);
-      data = dataJSON.slice(0, count);
-      selected = undefined;
     },
     remove = (num) => {
       operationType = `delete ${data.length}`;
