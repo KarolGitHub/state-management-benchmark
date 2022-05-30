@@ -75,7 +75,7 @@ export function performanceAPI() {
         return false;
       }
       const { totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit } = this.perf.memory;
-      const pageWeight = $('html').html().length;
+      const pageWeight = window.document.documentElement.innerHTML.length;
       const memory = JSON.parse(JSON.stringify({ pageWeight, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit }));
       return memory;
     }

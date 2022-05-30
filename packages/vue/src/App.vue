@@ -1,5 +1,5 @@
 <script>
-import { generateData, saveUserTimings as saveTimings, dataJSON } from '../../../utils';
+import { generateData, saveUserTimings as saveTimings, dataJSON, performanceAPI, saveToJSON } from '../../../utils';
 
 performance.mark('init');
 
@@ -93,7 +93,7 @@ export default {
     }
   },
 
-  /* mounted() {
+ /*  mounted() {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'vue.json');
