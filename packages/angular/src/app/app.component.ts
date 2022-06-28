@@ -1,5 +1,5 @@
 import { Component, VERSION, AfterViewChecked, NgZone } from '@angular/core';
-import { generateData, dataJSON, saveUserTimings as userTimings } from '../../../../utils';
+import { generateData, dataJSON, saveUserTimings as userTimings, performanceAPI, saveToJSON } from '../../../../utils';
 interface Data {
   id: number;
   name: string;
@@ -26,12 +26,12 @@ export class AppComponent implements AfterViewChecked {
     performance.mark(this.operationType);
   }
 
-  /*   ngOnInit(): void {
+  ngOnInit(): void {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'angular.json');
     });
-  } */
+  }
 
   ngAfterViewChecked(): void {
     this.zone.runOutsideAngular(() => {
@@ -41,9 +41,9 @@ export class AppComponent implements AfterViewChecked {
     });
   }
 
-  /* ngOnDestroy(): void {
+  ngOnDestroy(): void {
     window.removeEventListener('load', () => {});
-  } */
+  }
 
   itemById(index: number, item: Data) {
     return item.id;

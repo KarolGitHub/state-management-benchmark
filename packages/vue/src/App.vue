@@ -93,20 +93,20 @@ export default {
     }
   },
 
- /*  mounted() {
+  mounted() {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'vue.json');
     });
 
     performance.measure(this.operationType, this.operationType);
-  }, */
+  },
   updated() {
     setTimeout(() => performance.measure(this.operationType, this.operationType));
-  }
-  /*  beforeUnmount() {
+  },
+  beforeUnmount() {
     window.removeEventListener('load', () => {});
-  } */
+  }
 };
 </script>
 

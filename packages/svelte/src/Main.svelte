@@ -1,12 +1,13 @@
 <script>
-  import { generateData, saveUserTimings, dataJSON } from '../../../utils';
-  import { afterUpdate } from 'svelte';
+  import { generateData, saveUserTimings, dataJSON, saveToJSON, performanceAPI } from '../../../utils';
+  import { afterUpdate, onMount } from 'svelte';
+  import './../../../css/styles.css';
 
   let data = [],
     selected = undefined,
     operationType = 'init';
   performance.mark(operationType);
-  /*  onMount(async () => {
+  onMount(async () => {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'svelte.json');
@@ -17,7 +18,7 @@
     return () => {
       window.removeEventListener('load', () => {});
     };
-  }); */
+  });
 
   afterUpdate(() => {
     setTimeout(() => performance.measure(operationType, operationType));

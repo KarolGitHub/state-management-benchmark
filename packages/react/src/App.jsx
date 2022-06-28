@@ -1,7 +1,7 @@
 import { memo, useEffect, useReducer } from 'react';
 import { render } from 'react-dom';
 
-import { generateData, saveUserTimings, dataJSON } from '../../../utils';
+import { generateData, saveUserTimings, dataJSON, saveToJSON, performanceAPI } from '../../../utils';
 import './../../../css/styles.css';
 
 const initialState = { data: [], selected: 0 };
@@ -159,13 +159,13 @@ const TestPanel = memo(
 const App = () => {
   const [{ data, selected }, dispatch] = useReducer(listReducer, initialState);
 
-  /*  useEffect(() => {
+  useEffect(() => {
     window.addEventListener('load', () => {
       const perf = performanceAPI();
       saveToJSON(perf, 'react.json');
     });
     return window.removeEventListener('load', () => {});
-  }, []); */
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
